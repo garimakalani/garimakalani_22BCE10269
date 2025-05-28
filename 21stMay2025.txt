@@ -19,7 +19,6 @@ INSERT INTO worker VALUES
 (107, 'Pooja', 'Singh', 85000, '2020-04-05 09:00:00', 'Admin'),
 (108, 'Raj', 'Malhotra', 99000, '2021-08-16 09:00:00', 'IT');
 
-DROP TABLE IF EXISTS worker1;
 CREATE TABLE worker1 AS SELECT * FROM worker;
 
 SELECT * FROM worker1 WHERE worker_id IN (1,2);
