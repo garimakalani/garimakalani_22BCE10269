@@ -1,0 +1,90 @@
+package connnection;
+import java.sql.*;
+
+public class DBConnection {
+
+	public static void main(String[] args) {
+		try{
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/vit","root","tiger");
+			System.out.println(con);
+			Statement stmt=con.createStatement();
+			ResultSet rs=stmt.executeQuery("select * from vit_bhopal");
+			while(rs.next())
+				System.out.println(rs.getString(1)+" "+rs.getString(2)+" "+rs.getInt(4));
+			con.close();
+		}
+		catch(Exception e){
+			System.out.println("Sorry for inconveinience, please check the credentials");
+			e.printStackTrace();
+		}
+		
+
+	}
+
+}
+
+
+
+
+
+package crud_operations;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class DB_Connection {
+
+	public static void main(String[] args) {
+		DB_Connection obj_DB_Connection=new DB_Connection();
+		System.out.println(obj_DB_Connection.get_connection());
+		
+
+	}
+	public Connection get_connection(){
+		Connection connection = null;
+		try{
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/vit","root","tiger");
+			
+		}
+		catch(Exception e){
+			System.out.println(e);
+		}
+		return connection;
+	}
+
+}
+
+
+package crud_operations;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+public class CRUD_operations {
+	public static void main(String[] args) {
+		CRUD_operations objTest=new CRUD_operations();
+  
+		objTest.create_data("20BCE10987", "Manoj", "SCOPE", 2024);
+		objTest.create_data("20BAI10337", "Kartik", "SCAI", 2024);
+	}
+	
+	public void create_data(String reg_no, String stu_name, String school, int graduation_year){
+		DB_Connection obj_DB_Connection=new DB_Connection();
+		Connection connection=obj_DB_Connection.get_connection();
+		PreparedStatement ps=null;
+		try {
+			String query="insert into  vit_bhopal values (?,?,?,?)";
+			ps=connection.prepareStatement(query);
+			ps.setString(1, reg_no);
+			ps.setString(2, stu_name);
+			ps.setString(3, school);
+			ps.setInt(4, graduation_year);
+			System.out.println(ps);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+}
