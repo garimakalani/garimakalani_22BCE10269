@@ -1,0 +1,46 @@
+create database Tuesday;
+use tuesday;
+
+create table category(
+    c_id int primary key,
+    c_name varchar(25),
+    c_details varchar(25)
+);
+
+insert into category values (101, 'electronics', 'abcdefgh');
+insert into category values (102, 'furnitures', 'abcdefgsdfdsgdsbdsh');
+
+select * from category;
+
+drop table products;
+
+create table products(
+    p_id int primary key,
+    p_name varchar(25),
+    p_details varchar(35),
+    c_id int,
+    foreign key products(c_id) references category(c_id)
+);
+
+desc products;
+
+insert into products values (502, 'samsung s21', '8GB ram', 101);
+
+select * from products;
+
+
+CREATE TABLE products2 (
+    p_id INT PRIMARY KEY,
+    p_name VARCHAR(25) NOT NULL,
+    p_details VARCHAR(35) NOT NULL,
+    c_id INT NOT NULL,
+    FOREIGN KEY (c_id) REFERENCES category(c_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CHECK (CHAR_LENGTH(p_name) > 3),
+    INDEX (p_name)
+);
+
+INSERT INTO products2 VALUES (502, 'samsung s21', '8GB ram', 101);
+
+SELECT * FROM products2 WHERE c_id IN (101, 102);
